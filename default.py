@@ -244,7 +244,7 @@ class Main:
                 self.dialog.update( int( float( processeditems ) / float( totalitems ) * 100), __language__(32003) + ': ' + str( count + 1 ) )
                 name = item['title']
                 artwork = item['fanart']
-                if item['artist'][0] != '': # bug workaround, musicvideos can end up in the database without an artistname
+                if item['artist']: # bug workaround, musicvideos can end up in the database without an artistname
                     artist = item['artist'][0]
                     tmp_filename = artist + ' - ' + name + '.jpg'
                 else:
@@ -448,7 +448,7 @@ class Main:
                 self.dialog.update( int( float( processeditems ) / float( totalitems ) * 100), __language__(32009) + ': ' + str( count + 1 ) )
                 name = item['title']
                 artwork = item['thumbnail']
-                if item['artist'][0] != '': # bug workaround, musicvideos can end up in the database without an artistname
+                if item['artist']: # bug workaround, musicvideos can end up in the database without an artistname
                     artist = item['artist'][0]
                     tmp_filename = artist + ' - ' + name + '.jpg'
                 else:
