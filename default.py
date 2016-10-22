@@ -280,9 +280,8 @@ class Main:
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( moviefanartpath, filename ) )
                         count += 1
-                    except e:
+                    except:
                         log( 'failed to copy moviefanart' )
-                        log("error: %s" % str(e))
         log( 'moviefanart copied: %s' % count )
 
     def _copy_tvshowfanart( self ):
