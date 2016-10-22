@@ -146,14 +146,22 @@ class Main:
         # retrieve both movies and tvshows sources
         if self.split_movies_sources == "true" and self.split_tvshows_sources == "true":
             self.movies_sources, self.tvshows_sources, self.movies_content, self.tvshows_content = video_library._identify_source_content()
+            log(self.movies_sources)
+            log(self.tvshows_sources)
+            log(self.movies_content)
+            log(self.tvshows_content)
         # retrieve movies sources
         elif self.split_movies_sources == "true":
             self.movies_sources = video_library.get_movie_sources()
             self.movies_content = video_library.get_movie_content()
+            log(self.movies_sources)
+            log(self.movies_content)
         # retrieve tvshows sources
         elif self.split_tvshows_sources == "true":
             self.tvshows_sources = video_library.get_tv_sources()
             self.tvshows_content = video_library.get_tv_content()
+            log(self.tvshows_sources)
+            log(self.tvshows_content)
         else:
             self.movies_sources = []
             self.tvshows_sources = []
@@ -183,7 +191,8 @@ class Main:
         ##############################################################################
         if self.directoriescreated == 'true':
             if self.split_movies_sources == "true" and (self.moviefanart == "true" or self.moviethumbs == 'true'):
-                for ms_name in [m_s.name.decode("utf-8") for m_s in self.movies_sources]:
+                for ms_name in [m_s.name for m_s in self.movies_sources]:
+                    log("movie source name for create directory: %s" % ms_name)
                     try:
                         if self.moviefanart == "true":
                             xbmcvfs.mkdir( os.path.join( self.moviefanartpath, ms_name ) )
@@ -193,7 +202,8 @@ class Main:
                         self.directoriescreated = 'false'
                         log( 'failed to create directories for movies content type' )
             if self.split_tvshows_sources == "true" and (self.tvshowfanart == 'true' or self.tvshowbanners == 'true' or self.tvshowposters == 'true' or self.seasonthumbs == 'true' or self.episodethumbs == 'true'):
-                for tvs_name in [tv_s.name.decode("utf-8") for tv_s in self.tvshows_sources]:
+                for tvs_name in [tv_s.name for tv_s in self.tvshows_sources]:
+                    log("tv source name for create directory: %s" % tvs_name)
                     try:
                         if self.tvshowfanart == 'true':
                             xbmcvfs.mkdir( os.path.join( self.tvshowfanartpath, tvs_name ) )

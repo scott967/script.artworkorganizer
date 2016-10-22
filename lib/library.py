@@ -19,6 +19,8 @@ import sys
 import xbmc, xbmcgui, xbmcaddon, xbmcvfs
 from collections import namedtuple
 from urllib import unquote
+import unicodedata
+
 # Use json instead of simplejson when python v2.7 or greater
 if sys.version_info < (2, 7):
     import simplejson as json
@@ -61,6 +63,10 @@ def _unstack_multipath(path):
 
 def _normalize_path(path):
     return path.replace('\\', '/').rstrip('/')
+
+
+def _normalize_string(name):
+    return unicodedata.normalize('NFKD', name.decode('utf-8')).encode('ascii','ignore')
 
 
 def get_movies():
@@ -108,7 +114,7 @@ def get_sources():
     for item in response['result'].get('sources', []):
         paths = _unstack_multipath(item['file'].encode('utf-8'))
         for path in paths:
-            sources.append(Source(item['label'].encode('utf-8'), _normalize_path(path)))
+            sources.append(Source(_normalize_string(item['label'].encode('utf-8')), _normalize_path(path)))
     return sources
 
 
@@ -129,12 +135,12 @@ def _identify_source_content():
         for m_file_path in movie_content:
             if m_file_path.startswith(source.path + '/'):
                 movie_sources.append(source)
-                new_movie_content.append(MediaContent(m_file_path, source.name.decode("utf-8")))
+                new_movie_content.append(MediaContent(m_file_path, source.name ))
                 is_movie_source = "true"
         for tv_file_path in tv_content:
             if tv_file_path.startswith(source.path + '/'):
                 tv_sources.append(source)
-                new_tv_content.append(MediaContent(tv_file_path, source.name.decode("utf-8")))
+                new_tv_content.append(MediaContent(tv_file_path, source.name))
                 is_tv_source = "true"
         if is_movie_source == "true":
             is_movie_source = "false"
