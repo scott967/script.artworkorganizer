@@ -123,7 +123,8 @@ def _identify_source_content():
     new_tv_content = []
 
     MediaContent = namedtuple('MediaContent', ['path', 'source'])
-
+    is_movie_source = "false"
+    is_tv_source = "false"
     for source in get_sources():
         for m_file_path in movie_content:
             if m_file_path.startswith(source.path + '/'):
