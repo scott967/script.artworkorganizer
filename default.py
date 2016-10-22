@@ -272,15 +272,18 @@ class Main:
                 filename = clean_filename( tmp_filename )
                 # redglory
                 # test file path with movie_content to find source name
-                moviethumbspath = self.moviethumbspath
+                moviefanartpath = self.moviefanartpath
+                log("moviefanartpath: %s" % moviefanartpath)
                 if self.split_movies_sources == "true" and self.movies_content.has_key(str(item['file'])):
                     moviefanartpath = os.path.join( self.moviefanartpath, self.movies_content[str(item['file'])])
                 if artwork != '':
+                    log("movie fanart path: %s" % xbmc.translatePath( artwork ))
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( moviefanartpath, filename ) )
                         count += 1
-                    except:
+                    except e:
                         log( 'failed to copy moviefanart' )
+                        log("error: %s" % str(e))
         log( 'moviefanart copied: %s' % count )
 
     def _copy_tvshowfanart( self ):
