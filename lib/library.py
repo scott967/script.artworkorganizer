@@ -129,12 +129,12 @@ def _identify_source_content():
         for m_file_path in movie_content:
             if m_file_path.startswith(source.path + '/'):
                 movie_sources.append(source)
-                new_movie_content.append(MediaContent(m_file_path, source.name))
+                new_movie_content.append(MediaContent(m_file_path, source.name.decode("utf-8")))
                 is_movie_source = "true"
         for tv_file_path in tv_content:
             if tv_file_path.startswith(source.path + '/'):
                 tv_sources.append(source)
-                new_tv_content.append(MediaContent(tv_file_path, source.name))
+                new_tv_content.append(MediaContent(tv_file_path, source.name.decode("utf-8")))
                 is_tv_source = "true"
         if is_movie_source == "true":
             is_movie_source = "false"

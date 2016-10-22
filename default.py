@@ -183,7 +183,7 @@ class Main:
         ##############################################################################
         if self.directoriescreated == 'true':
             if self.split_movies_sources == "true" and (self.moviefanart == "true" or self.moviethumbs == 'true'):
-                for ms_name in [m_s.name for m_s in self.movies_sources]:
+                for ms_name in [m_s.name.decode("utf-8") for m_s in self.movies_sources]:
                     try:
                         if self.moviefanart == "true":
                             xbmcvfs.mkdir( os.path.join( self.moviefanartpath, ms_name ) )
@@ -193,7 +193,7 @@ class Main:
                         self.directoriescreated = 'false'
                         log( 'failed to create directories for movies content type' )
             if self.split_tvshows_sources == "true" and (self.tvshowfanart == 'true' or self.tvshowbanners == 'true' or self.tvshowposters == 'true' or self.seasonthumbs == 'true' or self.episodethumbs == 'true'):
-                for tvs_name in [tv_s.name for tv_s in self.tvshows_sources]:
+                for tvs_name in [tv_s.name.decode("utf-8") for tv_s in self.tvshows_sources]:
                     try:
                         if self.tvshowfanart == 'true':
                             xbmcvfs.mkdir( os.path.join( self.tvshowfanartpath, tvs_name ) )
