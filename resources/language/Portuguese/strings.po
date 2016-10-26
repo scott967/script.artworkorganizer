@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Artwork Organizer
-# Addon id: script.artworkorganizer
+# Addon Name: Artwork Organizer Modded
+# Addon id: script.artworkorganizer.modded
 # Addon Provider: ronie
 msgid ""
 msgstr ""
