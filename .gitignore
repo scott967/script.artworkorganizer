@@ -88,3 +88,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Transifex Files/Directories
+.tx/
+
+#.DS_Store
+.DS_Store
