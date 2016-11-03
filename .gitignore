@@ -91,6 +91,7 @@ ENV/
 
 # Transifex Files/Directories
 .tx/
+tx.exe
 
 #.DS_Store
 .DS_Store
