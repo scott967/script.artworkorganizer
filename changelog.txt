@@ -1,5 +1,11 @@
-v4.0.0
+v6.0.0
 - possible to split artwork by media sources
+- simplejson no longer needed on kodi krypton
+
+v5.0.0
+- none
+
+v4.0.0
 - language update
 
 v3.0.5

@@ -20,12 +20,7 @@ import xbmc, xbmcgui, xbmcaddon, xbmcvfs
 from collections import namedtuple
 from urllib import unquote
 import unicodedata
-
-# Use json instead of simplejson when python v2.7 or greater
-if sys.version_info < (2, 7):
-    import simplejson as json
-else:
-    import json
+import json
 
 Source = namedtuple('Source', ['name', 'path'])
 
