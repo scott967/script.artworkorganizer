@@ -23,6 +23,9 @@
 		<setting id="split_media_sources" type="bool" label="32017" default="false" />
 		<setting id="split_movies_sources" type="bool" label="32018" subsetting="true" enable="eq(-1,true)"/>
 		<setting id="split_tvshows_sources" type="bool" label="32019" subsetting="true" enable="eq(-2,true)"/>
+		<setting type="lsep" label="32110"/>
+		<setting id="normalize_names" type="bool" label="32020" default="false" />
+
 	</category>
 	<category label="32103">
 		<setting type="lsep" label="32104"/>

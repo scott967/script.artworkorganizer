@@ -61,7 +61,7 @@ def _normalize_path(path):
 
 
 def _normalize_string(name):
-    return unicodedata.normalize('NFKD', name.decode('utf-8')).encode('ascii','ignore')
+    return unicodedata.normalize('NFKD', name).encode('ascii','ignore')
 
 
 def get_movies():
@@ -72,7 +72,7 @@ def get_movies():
         "id": 1
     }
     items = jsonrpc(query)['result'].get('movies', [])
-    return list(map(_normalize_path, _unstack((item['file'].encode('utf-8') for item in items))))
+    return list(map(_normalize_path, _unstack((item['file'] for item in items))))
 
 
 def get_tvshows():
@@ -83,7 +83,7 @@ def get_tvshows():
         "id": 1
     }
     items = jsonrpc(query)['result'].get('tvshows', [])
-    return [_normalize_path(item['file'].encode('utf-8')) for item in items]
+    return [_normalize_path(item['file']) for item in items]
 
 
 def get_episodes():
@@ -94,7 +94,7 @@ def get_episodes():
         "id": 1
     }
     items = jsonrpc(query)['result'].get('episodes', [])
-    return list(map(_normalize_path, _unstack((item['file'].encode('utf-8') for item in items))))
+    return list(map(_normalize_path, _unstack((item['file'] for item in items))))
 
 
 def get_sources():
@@ -107,9 +107,9 @@ def get_sources():
     response = jsonrpc(query)
     sources = []
     for item in response['result'].get('sources', []):
-        paths = _unstack_multipath(item['file'].encode('utf-8'))
+        paths = _unstack_multipath(item['file'])
         for path in paths:
-            sources.append(Source(_normalize_string(item['label'].encode('utf-8')), _normalize_path(path)))
+            sources.append(Source(item['label'], _normalize_path(path)))
     return sources
 
 
@@ -129,8 +129,10 @@ def _identify_source_content():
     for source in get_sources():
         for m_file_path in movie_content:
             if m_file_path.startswith(source.path + '/'):
-                movie_sources.append(source)
-                new_movie_content.append(MediaContent(m_file_path, source.name ))
+                if source not in movie_sources:
+                    movie_sources.append(source)
+                if MediaContent(m_file_path, source.name ) not in new_movie_content:
+                    new_movie_content.append(MediaContent(m_file_path, source.name ))
                 is_movie_source = "true"
         for tv_file_path in tv_content:
             if tv_file_path.startswith(source.path + '/'):

@@ -123,3 +123,11 @@ msgstr ""
 msgctxt "#32109"
 msgid "select if you want artwork split by source name"
 msgstr ""
+
+msgctxt "#32110"
+msgid "Do you want to normalize names? (useful for NFS file systems)"
+msgstr ""
+
+msgctxt "#32020"
+msgid "Normalize names"
+msgstr ""

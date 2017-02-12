@@ -61,6 +61,8 @@ class Main:
         else:
             self.split_movies_sources = "false"
             self.split_tvshows_sources = "false"
+        # Option to normalize names. Useful when using nfs file systems (accented names not supported!)
+        self.normalize_names = ADDON.getSetting( "normalize_names" )
 
     def _init_variables( self ):
         self.moviefanartdir = 'MovieFanart'
@@ -168,6 +170,8 @@ class Main:
             if self.split_movies_sources == "true" and (self.moviefanart == "true" or self.moviethumbs == 'true'):
                 for ms_name in [m_s.name for m_s in self.movies_sources]:
                     try:
+                        if self.normalize_names == "true":
+                            ms_name = video_library._normalize_string(ms_name)
                         if self.moviefanart == "true":
                             xbmcvfs.mkdir( os.path.join( self.moviefanartpath, ms_name ) )
                         if self.moviethumbs == "true":
@@ -178,6 +182,8 @@ class Main:
             if self.split_tvshows_sources == "true" and (self.tvshowfanart == 'true' or self.tvshowbanners == 'true' or self.tvshowposters == 'true' or self.seasonthumbs == 'true' or self.episodethumbs == 'true'):
                 for tvs_name in [tv_s.name for tv_s in self.tvshows_sources]:
                     try:
+                        if self.normalize_names == "true":
+                            tvs_name = video_library._normalize_string(tvs_name)
                         if self.tvshowfanart == 'true':
                             xbmcvfs.mkdir( os.path.join( self.tvshowfanartpath, tvs_name ) )
                         if self.tvshowbanners == 'true':
@@ -252,11 +258,15 @@ class Main:
                 artwork = item['fanart']
                 tmp_filename = name + ' (' + year + ')' + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 # test file path with movie_content to find source name
                 moviefanartpath = self.moviefanartpath
-                log("moviefanartpath: %s" % moviefanartpath)
-                if self.split_movies_sources == "true" and self.movies_content.has_key(str(item['file'])):
-                    moviefanartpath = os.path.join( self.moviefanartpath, self.movies_content[str(item['file'])])
+                if self.split_movies_sources == "true" and item['file'] in self.movies_content:
+                    media_source = self.movies_content[item['file']]
+                    if self.normalize_names == "true":
+                        media_source = video_library._normalize_string(media_source)
+                    moviefanartpath = os.path.join( self.moviefanartpath, media_source )
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( moviefanartpath, filename ) )
@@ -283,11 +293,15 @@ class Main:
                 artwork = item['fanart']
                 tmp_filename = name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 # test file path with tv_content to find source name
                 tvshowfanartpath = self.tvshowfanartpath
                 if self.split_tvshows_sources == "true":
                     for tv_file_path, source_name in self.tvshows_content.items():
                         if tv_file_path.startswith(item['file']):
+                            if self.normalize_names == "true":
+                                source_name = video_library._normalize_string(source_name)
                             tvshowfanartpath = os.path.join( self.tvshowfanartpath, source_name )
                             break
                 if artwork != '':
@@ -320,6 +334,8 @@ class Main:
                 else:
                     tmp_filename = name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( self.musicvideofanartpath, filename ) )
@@ -346,6 +362,8 @@ class Main:
                 artwork = item['fanart']
                 tmp_filename = name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( self.artistfanartpath, filename ) )
@@ -373,10 +391,15 @@ class Main:
                 artwork = item['thumbnail']
                 tmp_filename = name + ' (' + year + ')' + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 # test file path with movie_content to find source name
                 moviethumbspath = self.moviethumbspath
-                if self.split_movies_sources == "true" and self.movies_content.has_key(str(item['file'])):
-                    moviethumbspath = os.path.join( self.moviethumbspath, self.movies_content[str(item['file'])])
+                if self.split_movies_sources == "true" and item['file'] in self.movies_content:
+                    media_source = self.movies_content[item['file']]
+                    if self.normalize_names == "true":
+                        media_source = video_library._normalize_string(media_source)
+                    moviethumbspath = os.path.join( self.moviethumbspath, media_source )
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( moviethumbspath, filename ) )
@@ -403,11 +426,15 @@ class Main:
                 artwork = item['art'].get('banner')
                 tmp_filename = name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 # test tvshow path in tv_content to find source name
                 tvshowbannerspath = self.tvshowbannerspath
                 if self.split_tvshows_sources == "true":
                     for tv_file_path, source_name in self.tvshows_content.items():
                         if tv_file_path.startswith(item['file']):
+                            if self.normalize_names == "true":
+                                source_name = video_library._normalize_string(source_name)
                             tvshowbannerspath = os.path.join( self.tvshowbannerspath, source_name )
                             break
                 if artwork != '':
@@ -436,11 +463,15 @@ class Main:
                 artwork = item['art'].get('poster')
                 tmp_filename = name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 # test file path with tv_content to find source name
                 tvshowposterspath = self.tvshowposterspath
                 if self.split_tvshows_sources == "true":
                     for tv_file_path, source_name in self.tvshows_content.items():
                         if tv_file_path.startswith(item['file']):
+                            if self.normalize_names == "true":
+                                source_name = video_library._normalize_string(source_name)
                             tvshowposterspath = os.path.join( self.tvshowposterspath, source_name )
                             break
                 if artwork != '':
@@ -463,7 +494,7 @@ class Main:
                 if self.dialog.iscanceled():
                     log('script cancelled')
                     return
-                tvshow = _TVShow_(int(item['tvshowid']), str(item['file']))
+                tvshow = _TVShow_(int(item['tvshowid']), item['file'])
                 tvshows.append(tvshow)
             for tvshow in tvshows:
                 processeditems = 0
@@ -483,11 +514,15 @@ class Main:
                         artwork = item['thumbnail']
                         tmp_filename = tvshow_title + ' - ' + name + '.jpg'
                         filename = clean_filename( tmp_filename )
+                        if self.normalize_names == "true":
+                            filename = video_library._normalize_string(filename)        
                         # test file path with tv_content to find source name
                         seasonthumbspath = self.seasonthumbspath
                         if self.split_tvshows_sources == "true":
                             for tv_file_path, source_name in self.tvshows_content.items():
                                 if tv_file_path.startswith(tvshow.path):
+                                    if self.normalize_names == "true":
+                                        source_name = video_library._normalize_string(source_name)
                                     seasonthumbspath = os.path.join( self.seasonthumbspath, source_name )
                                     break
                         if artwork != '':
@@ -520,10 +555,15 @@ class Main:
                 episodenumber = "s%.2d%.2d" % (int( season ), int( episode ))
                 tmp_filename = tvshow + ' - ' + episodenumber + ' - ' + name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 # test file path with tv_content to find source name
                 episodethumbspath = self.episodethumbspath
-                if self.split_tvshows_sources == "true" and self.tvshows_content.has_key(str(item['file'])):
-                    episodethumbspath = os.path.join( self.episodethumbspath, self.tvshows_content[str(item['file'])])
+                if self.split_tvshows_sources == "true" and item['file'] in self.tvshows_content:
+                    source_name = self.tvshows_content[item['file']]
+                    if self.normalize_names == "true":
+                        source_name = video_library._normalize_string(source_name)
+                    episodethumbspath = os.path.join( self.episodethumbspath, source_name)
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( episodethumbspath, filename ) )
@@ -554,6 +594,8 @@ class Main:
                 else:
                     tmp_filename = name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( self.musicvideothumbspath, filename ) )
@@ -580,6 +622,8 @@ class Main:
                 artwork = item['thumbnail']
                 tmp_filename = name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( self.artistthumbspath, filename ) )
@@ -607,6 +651,8 @@ class Main:
                 artwork = item['thumbnail']
                 tmp_filename = artist + ' - ' + name + '.jpg'
                 filename = clean_filename( tmp_filename )
+                if self.normalize_names == "true":
+                    filename = video_library._normalize_string(filename)
                 if artwork != '':
                     try:
                         xbmcvfs.copy( xbmc.translatePath( artwork ), os.path.join( self.albumthumbspath, filename ) )
