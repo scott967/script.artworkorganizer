@@ -1,6 +1,7 @@
 v6.0.1
 - fixed error when using accented names
 - added option to normalize names (useful when using nfs file system)
+- fixed Portuguese translation
 
 v6.0.0
 - possible to split artwork by media sources
