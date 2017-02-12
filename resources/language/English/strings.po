@@ -88,6 +88,10 @@ msgctxt "#32019"
 msgid "Split TV Artwork by Media Sources"
 msgstr ""
 
+msgctxt "#32020"
+msgid "Normalize names"
+msgstr ""
+
 msgctxt "#32101"
 msgid "General"
 msgstr ""
@@ -126,8 +130,4 @@ msgstr ""
 
 msgctxt "#32110"
 msgid "Do you want to normalize names? (useful for NFS file systems)"
-msgstr ""
-
-msgctxt "#32020"
-msgid "Normalize names"
 msgstr ""

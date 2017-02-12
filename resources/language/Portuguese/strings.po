@@ -81,12 +81,16 @@ msgid "Split Artwork by Media Sources"
 msgstr "Separar Artwork por fonte de media"
 
 msgctxt "#32018"
-msgid "Split Movies Artwork"
-msgstr "Dividir Artwork de Filmes"
+msgid "Split Movies Artwork by Media Sources"
+msgstr "Separar Artwork de Filmes"
 
 msgctxt "#32019"
-msgid "Split TV Artwork"
-msgstr "Dividir Artwork de Séries de TV"
+msgid "Split TV Artwork by Media Sources"
+msgstr "Separar Artwork de Séries de TV"
+
+msgctxt "#32020"
+msgid "Normalize names"
+msgstr "Normalizar nomes"
 
 msgctxt "#32101"
 msgid "General"
@@ -127,7 +131,3 @@ msgstr "seleccionar se pretender armazenar o artwork em pastas separadas por fon
 msgctxt "#32110"
 msgid "Do you want to normalize names? (useful for NFS file systems)"
 msgstr "Pretende normalizar nomes? (útil se usar NFS como sistema de ficheiros)"
-
-msgctxt "#32020"
-msgid "Normalize names"
-msgstr "Normalizar nomes"
