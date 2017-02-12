@@ -1,21 +1,19 @@
 # Kodi Media Center language file
-# Addon Name: Artwork Organizer
-# Addon id: script.artworkorganizer
+# Addon Name: Artwork Organizer Modded
+# Addon id: script.artworkorganizer.modded
 # Addon Provider: ronie
-# Translators:
-# Pedro Pinto <pedropinto.inbox@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC Addons\n"
 "Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Pedro Pinto <pedropinto.inbox@gmail.com>, 2016\n"
-"Language-Team: Portuguese (Portugal) (https://www.transifex.com/redglory/teams/68623/pt_PT/)\n"
+"Last-Translator: Kodi Translation Team\n"
+"Language-Team: Portuguese (http://www.transifex.com/projects/p/xbmc-addons/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_PT\n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "#32001"
@@ -84,11 +82,11 @@ msgstr "Separar Artwork por fonte de media"
 
 msgctxt "#32018"
 msgid "Split Movies Artwork by Media Sources"
-msgstr "Dividir Artwork de Filmes"
+msgstr "Separar Artwork de Filmes"
 
 msgctxt "#32019"
 msgid "Split TV Artwork by Media Sources"
-msgstr "Dividir Artwork de Séries de TV"
+msgstr "Separar Artwork de Séries de TV"
 
 msgctxt "#32020"
 msgid "Normalize names"
@@ -128,10 +126,8 @@ msgstr "seleccionar uma pasta personalizada para o addon armazenar o artwork"
 
 msgctxt "#32109"
 msgid "select if you want artwork split by source name"
-msgstr ""
-"seleccionar se pretender armazenar o artwork em pastas separadas por fonte"
+msgstr "seleccionar se pretender armazenar o artwork em pastas separadas por fonte"
 
 msgctxt "#32110"
 msgid "Do you want to normalize names? (useful for NFS file systems)"
-msgstr ""
-"Pretende normalizar nomes? (útil se usar NFS como sistema de ficheiros)"
+msgstr "Pretende normalizar nomes? (útil se usar NFS como sistema de ficheiros)"
