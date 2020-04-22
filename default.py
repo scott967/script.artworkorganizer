@@ -11,10 +11,8 @@ ADDONVERSION = ADDON.getAddonInfo('version')
 LANGUAGE = ADDON.getLocalizedString
 
 def log(txt):
-    if isinstance (txt,str):
-        txt = txt.decode("utf-8")
-    message = u'%s: %s' % (ADDONID, txt)
-    xbmc.log(msg=message.encode("utf-8"), level=xbmc.LOGDEBUG)
+    message = f'{ADDONID}: {txt}'
+    xbmc.log(msg=message, level=xbmc.LOGDEBUG)
 
 def clean_filename(filename):
     illegal_char = '^<>:"/\|?*'
@@ -49,10 +47,10 @@ class Main:
         self.albumthumbs = ADDON.getSetting( "albumthumbs" )
         self.source = ADDON.getSetting( "source" )
         if self.source == 'true':
-            self.path = ADDON.getSetting( "path" ).decode("utf-8")
+            self.path = ADDON.getSetting( "path" )
         else:
             self.path = ''
-        self.directory = ADDON.getSetting( "directory" ).decode("utf-8")
+        self.directory = ADDON.getSetting( "directory" )
         # Option to separate artwork by media sources types (movies, tvshows) by path
         self.split_media_sources = ADDON.getSetting( "split_media_sources" )
         if self.split_media_sources == "true":
@@ -80,7 +78,7 @@ class Main:
         self.directoriescreated = 'true'
         self.dialog = xbmcgui.DialogProgress()
         if self.directory == '':
-            self.directory = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')).decode('utf-8')
+            self.directory = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile'))
         if self.path != '':
             path = os.path.split( os.path.dirname( self.path ) )[1]
             self.directory = os.path.join( self.directory, path )
@@ -243,9 +241,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties": ["file", "title", "fanart", "year"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('movies')):
+        if 'result' in json_response and (json_response['result'] != None) and ('movies' in json_response['result']):
             totalitems = len( json_response['result']['movies'] )
             for item in json_response['result']['movies']:
                 if self.dialog.iscanceled():
@@ -279,9 +276,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["file", "title", "fanart"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('tvshows')):
+        if 'result' in json_response and (json_response['result'] != None) and ('tvshows' in json_response['result']):
             totalitems = len( json_response['result']['tvshows'] )
             for item in json_response['result']['tvshows']:
                 if self.dialog.iscanceled():
@@ -316,9 +312,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMusicVideos", "params": {"properties": ["title", "fanart", "artist"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('musicvideos')):
+        if 'result' in json_response and (json_response['result'] != None) and ('musicvideos' in json_response['result']):
             totalitems = len( json_response['result']['musicvideos'] )
             for item in json_response['result']['musicvideos']:
                 if self.dialog.iscanceled():
@@ -348,9 +343,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"properties": ["fanart"]}, "id": 1}')
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('artists')):
+        if 'result' in json_response and (json_response['result'] != None) and ('artists' in json_response['result']):
             totalitems = len( json_response['result']['artists'] )
             for item in json_response['result']['artists']:
                 if self.dialog.iscanceled():
@@ -376,9 +370,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties": ["file", "title", "thumbnail", "year"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('movies')):
+        if 'result' in json_response and (json_response['result'] != None) and ('movies' in json_response['result']):
             totalitems = len( json_response['result']['movies'] )
             for item in json_response['result']['movies']:
                 if self.dialog.iscanceled():
@@ -412,9 +405,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["file", "title", "art"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('tvshows')):
+        if 'result' in json_response and (json_response['result'] != None) and ('tvshows' in json_response['result']):
             totalitems = len( json_response['result']['tvshows'] )
             for item in json_response['result']['tvshows']:
                 if self.dialog.iscanceled():
@@ -449,9 +441,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["file", "title", "art"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('tvshows')):
+        if 'result' in json_response and (json_response['result'] != None) and ('tvshows' in json_response['result']):
             totalitems = len( json_response['result']['tvshows'] )
             for item in json_response['result']['tvshows']:
                 if self.dialog.iscanceled():
@@ -487,9 +478,8 @@ class Main:
         count = 0
         tvshows = []
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties": ["file"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('tvshows')):
+        if 'result' in json_response and (json_response['result'] != None) and ('tvshows' in json_response['result']):
             for item in json_response['result']['tvshows']:
                 if self.dialog.iscanceled():
                     log('script cancelled')
@@ -499,9 +489,8 @@ class Main:
             for tvshow in tvshows:
                 processeditems = 0
                 json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetSeasons", "params": {"properties": ["thumbnail", "showtitle"], "tvshowid":%s}, "id": 1}' % tvshow.id )
-                json_query = unicode(json_query, 'utf-8', errors='ignore')
                 json_response = json.loads(json_query)
-                if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('seasons')):
+                if 'result' in json_response and (json_response['result'] != None) and ('seasons' in json_response['result']):
                     totalitems = len( json_response['result']['seasons'] )
                     for item in json_response['result']['seasons']:
                         if self.dialog.iscanceled():
@@ -537,9 +526,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": {"properties": ["file", "title", "thumbnail", "season", "episode", "showtitle"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('episodes')):
+        if 'result' in json_response and (json_response['result'] != None) and ('episodes' in json_response['result']):
             totalitems = len( json_response['result']['episodes'] )
             for item in json_response['result']['episodes']:
                 if self.dialog.iscanceled():
@@ -576,9 +564,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMusicVideos", "params": {"properties": ["title", "thumbnail", "artist"], "filter": {"field": "path", "operator": "contains", "value": "%s"}}, "id": 1}' % self.path)
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('musicvideos')):
+        if 'result' in json_response and (json_response['result'] != None) and ('musicvideos' in json_response['result']):
             totalitems = len( json_response['result']['musicvideos'] )
             for item in json_response['result']['musicvideos']:
                 if self.dialog.iscanceled():
@@ -608,9 +595,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"properties": ["thumbnail"]}, "id": 1}')
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('artists')):
+        if 'result' in json_response and (json_response['result'] != None) and ('artists' in json_response['result']):
             totalitems = len( json_response['result']['artists'] )
             for item in json_response['result']['artists']:
                 if self.dialog.iscanceled():
@@ -636,9 +622,8 @@ class Main:
         count = 0
         processeditems = 0
         json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": {"properties": ["title", "thumbnail", "artist"]}, "id": 1}')
-        json_query = unicode(json_query, 'utf-8', errors='ignore')
         json_response = json.loads(json_query)
-        if json_response.has_key('result') and (json_response['result'] != None) and (json_response['result'].has_key('albums')):
+        if 'result' in json_response and (json_response['result'] != None) and ('albums' in json_response['result']):
             totalitems = len( json_response['result']['albums'] )
             for item in json_response['result']['albums']:
                 if self.dialog.iscanceled():
