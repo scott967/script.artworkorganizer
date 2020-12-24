@@ -18,9 +18,13 @@
 import sys
 import xbmc, xbmcgui, xbmcaddon, xbmcvfs
 from collections import namedtuple
-from urllib import unquote
 import unicodedata
 import json
+
+if sys.version_info[0] > 2:
+    from urllib.parse import unquote
+else:
+    from urllib import unquote
 
 Source = namedtuple('Source', ['name', 'path'])
 
@@ -30,14 +34,12 @@ ADDONNAME = ADDON.getAddonInfo('name')
 ADDONVERSION = ADDON.getAddonInfo('version')
 LANGUAGE = ADDON.getLocalizedString
 
-def log(txt):
-    if isinstance (txt,str):
-        txt = txt.decode("utf-8")
-    message = u'%s: %s' % (ADDONID, txt)
-    xbmc.log(msg=message.encode("utf-8"), level=xbmc.LOGDEBUG)
+def log(txt, level=xbmc.LOGDEBUG):
+    message = '%s: %s' % (ADDONID, txt)
+    xbmc.log(msg=message, level=level)
 
 def jsonrpc(query):
-    return json.loads(xbmc.executeJSONRPC(json.dumps(query, encoding='utf-8')))
+    return json.loads(xbmc.executeJSONRPC(json.dumps(query)))
 
 
 def _unstack(paths):
@@ -61,7 +63,7 @@ def _normalize_path(path):
 
 
 def _normalize_string(name):
-    return unicodedata.normalize('NFKD', name).encode('ascii','ignore')
+    return unicodedata.normalize('NFKD', name).encode('ascii','ignore').decode('utf-8')
 
 
 def get_movies():
