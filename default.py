@@ -24,18 +24,21 @@ class Main:
     def __init__ ( self ):
         self._load_settings()
         self._init_variables()
-        self._delete_directories()
         # make sure that "sources.xml" is already set
         if xbmcvfs.exists("special://masterprofile/sources.xml"):
-            # get media sources if setting is defined
-            if  self.split_media_sources == "true" and (self.split_movies_sources == "true" or self.split_tvshows_sources == "true"):
-                self._get_media_sources_and_content()
-            self._create_directories()
-            if self.directoriescreated == 'true':
-                self._copy_artwork()
+            # only delete if it is safe!
+            if not self._directory_in_sources():
+                self._delete_directories()
+                # get media sources if setting is defined
+                if  self.split_media_sources == "true" and (self.split_movies_sources == "true" or self.split_tvshows_sources == "true"):
+                    self._get_media_sources_and_content()
+                self._create_directories()
+                if self.directoriescreated == 'true':
+                    self._copy_artwork()
+            else:
+                log("WARNING! The specified destination directory is defined as a media source. Please choose a different path!", level=xbmc.LOGINFO)
         else:
             log("You MUST set your media sources BEFORE running this addon.", level=xbmc.LOGINFO)
-
 
     def _load_settings( self ):
         self.moviefanart = ADDON.getSetting( "moviefanart" )
@@ -124,6 +127,13 @@ class Main:
         if self.albumthumbs == 'true':
             self.albumthumbspath = os.path.join( self.directory, self.albumthumbsdir )
             self.artworklist.append( self.albumthumbspath )
+
+    def _directory_in_sources( self ):
+        all_sources = video_library.get_all_sources()
+        for source in [s.path for s in all_sources]:
+            if video_library._normalize_path(self.directory) in source:
+                return True
+        return False
 
     def _delete_directories( self ):
         if xbmcvfs.exists( self.directory ):
@@ -258,8 +268,8 @@ class Main:
                     filename = video_library._normalize_string(filename)
                 # test file path with movie_content to find source name
                 moviefanartpath = self.moviefanartpath
-                if self.split_movies_sources == "true" and item['file'] in self.movies_content:
-                    media_source = self.movies_content[item['file']]
+                if self.split_movies_sources == "true" and video_library._normalize_path(item['file']) in self.movies_content:
+                    media_source = self.movies_content[video_library._normalize_path(item['file'])]
                     if self.normalize_names == "true":
                         media_source = video_library._normalize_string(media_source)
                     moviefanartpath = os.path.join( self.moviefanartpath, media_source )
@@ -294,7 +304,7 @@ class Main:
                 tvshowfanartpath = self.tvshowfanartpath
                 if self.split_tvshows_sources == "true":
                     for tv_file_path, source_name in self.tvshows_content.items():
-                        if tv_file_path.startswith(item['file']):
+                        if tv_file_path.startswith(video_library._normalize_path(item['file'])):
                             if self.normalize_names == "true":
                                 source_name = video_library._normalize_string(source_name)
                             tvshowfanartpath = os.path.join( self.tvshowfanartpath, source_name )
@@ -387,8 +397,8 @@ class Main:
                     filename = video_library._normalize_string(filename)
                 # test file path with movie_content to find source name
                 moviethumbspath = self.moviethumbspath
-                if self.split_movies_sources == "true" and item['file'] in self.movies_content:
-                    media_source = self.movies_content[item['file']]
+                if self.split_movies_sources == "true" and video_library._normalize_path(item['file']) in self.movies_content:
+                    media_source = self.movies_content[video_library._normalize_path(item['file'])]
                     if self.normalize_names == "true":
                         media_source = video_library._normalize_string(media_source)
                     moviethumbspath = os.path.join( self.moviethumbspath, media_source )
@@ -423,7 +433,7 @@ class Main:
                 tvshowbannerspath = self.tvshowbannerspath
                 if self.split_tvshows_sources == "true":
                     for tv_file_path, source_name in self.tvshows_content.items():
-                        if tv_file_path.startswith(item['file']):
+                        if tv_file_path.startswith(video_library._normalize_path(item['file'])):
                             if self.normalize_names == "true":
                                 source_name = video_library._normalize_string(source_name)
                             tvshowbannerspath = os.path.join( self.tvshowbannerspath, source_name )
@@ -459,7 +469,7 @@ class Main:
                 tvshowposterspath = self.tvshowposterspath
                 if self.split_tvshows_sources == "true":
                     for tv_file_path, source_name in self.tvshows_content.items():
-                        if tv_file_path.startswith(item['file']):
+                        if tv_file_path.startswith(video_library._normalize_path(item['file'])):
                             if self.normalize_names == "true":
                                 source_name = video_library._normalize_string(source_name)
                             tvshowposterspath = os.path.join( self.tvshowposterspath, source_name )
@@ -508,7 +518,7 @@ class Main:
                         seasonthumbspath = self.seasonthumbspath
                         if self.split_tvshows_sources == "true":
                             for tv_file_path, source_name in self.tvshows_content.items():
-                                if tv_file_path.startswith(tvshow.path):
+                                if tv_file_path.startswith(video_library._normalize_path(tvshow.path)):
                                     if self.normalize_names == "true":
                                         source_name = video_library._normalize_string(source_name)
                                     seasonthumbspath = os.path.join( self.seasonthumbspath, source_name )
@@ -546,8 +556,8 @@ class Main:
                     filename = video_library._normalize_string(filename)
                 # test file path with tv_content to find source name
                 episodethumbspath = self.episodethumbspath
-                if self.split_tvshows_sources == "true" and item['file'] in self.tvshows_content:
-                    source_name = self.tvshows_content[item['file']]
+                if self.split_tvshows_sources == "true" and video_library._normalize_path(item['file']) in self.tvshows_content:
+                    source_name = self.tvshows_content[video_library._normalize_path(item['file'])]
                     if self.normalize_names == "true":
                         source_name = video_library._normalize_string(source_name)
                     episodethumbspath = os.path.join( self.episodethumbspath, source_name)
