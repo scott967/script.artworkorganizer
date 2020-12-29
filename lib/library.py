@@ -76,7 +76,7 @@ def get_movies():
         "id": 1
     }
     items = jsonrpc(query)['result'].get('movies', [])
-    return list(map(_normalize_path, _unstack((_normalize_path(item['file']) for item in items))))
+    return list(map(_normalize_path, _unstack((item['file'] for item in items))))
 
 
 def get_tvshows():

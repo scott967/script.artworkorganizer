@@ -183,7 +183,6 @@ class Main:
         if self.directoriescreated == 'true':
             if self.split_movies_sources == "true" and (self.moviefanart == "true" or self.moviethumbs == 'true'):
                 for ms_name in [m_s.name for m_s in self.movies_sources]:
-                    log("movie name: %s" % ms_name)
                     try:
                         if self.normalize_names == "true":
                             ms_name = video_library._normalize_string(ms_name)
