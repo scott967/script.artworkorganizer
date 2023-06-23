@@ -38,6 +38,10 @@ msgctxt "#32005"
 msgid "Copy Movie Thumbs"
 msgstr "Kopiraj minijaturu filma"
 
+msgctxt "#32006"
+msgid "Copy Movie Posters"
+msgstr "Kopiraj postere filma"
+
 msgctxt "#32007"
 msgid "Copy Season Thumbs"
 msgstr "Kopiraj minijaturu sezone"
