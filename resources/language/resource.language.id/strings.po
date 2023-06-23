@@ -38,6 +38,10 @@ msgctxt "#32005"
 msgid "Copy Movie Thumbs"
 msgstr "Salin Gambar Kecil Film"
 
+msgctxt "#32006"
+msgid "Copy Movie Posters"
+msgstr "Salin Poster Film"
+
 msgctxt "#32007"
 msgid "Copy Season Thumbs"
 msgstr "Salin Gambar Kecil Sesi"
