@@ -1,3 +1,10 @@
+v6.1.2
+- added the ability to save movie posters instead of just thumbnails (applies to Nexus 20.1+, not sure about prior versions) -TechErudio
+
+v6.1.1
+- added validation to not allow destination path to be any media source in sources.xml
+- fixed some backslash validations for media file paths (windows)
+
 v6.0.4
 - added validation to not allow destination path to be any media source in sources.xml
 - fixed some backslash validations for media file paths (windows)
