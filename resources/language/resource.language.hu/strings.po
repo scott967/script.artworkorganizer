@@ -38,6 +38,10 @@ msgctxt "#32005"
 msgid "Copy Movie Thumbs"
 msgstr "Film Bélyegképek másolása"
 
+msgctxt "#32006"
+msgid "Copy Movie Posters"
+msgstr "Filmplakátok másolása"
+
 msgctxt "#32007"
 msgid "Copy Season Thumbs"
 msgstr "Sorozat Bélyegképek másolása"
