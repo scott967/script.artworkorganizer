@@ -38,6 +38,10 @@ msgctxt "#32005"
 msgid "Copy Movie Thumbs"
 msgstr "Αντιγραφή Μικρογραφιών Ταινιών"
 
+msgctxt "#32006"
+msgid "Copy Movie Posters"
+msgstr "Αντιγραφή Aφισών Ταινιών"
+
 msgctxt "#32007"
 msgid "Copy Season Thumbs"
 msgstr "Αντιγραφή Μικρογραφιών Κύκλων"
